@@ -15,6 +15,9 @@ build:
   number: 0
   binary_relocation: False
   skip: True   # [win32]
+  missing_dso_whitelist:
+    - /lib/libpthread.so.0  # [linux]
+    - /lib/libc.so.6        # [linux]
 
 requirements:
   build:
