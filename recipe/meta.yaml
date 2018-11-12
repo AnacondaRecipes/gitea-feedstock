@@ -1,24 +1,26 @@
 {% set name = "gitea" %}
-{% set version = "1.2" %}
+{% set version = "1.5.3" %}
 
 package:
   name: gitea
   version: {{ version }}
 
+source:
+  fn: gitea-{{ version }}.tar.gz
+  url: https://github.com/go-gitea/gitea/archive/v{{ version }}.tar.gz
+  sha256: 3a94982d1fa0549e26e2c86f859bc09dda480a98a6b07ce5682257f3ce7de188
+  folder: src/code.gitea.io/gitea
+
 build:
   number: 0
   binary_relocation: False
-  script:
-    - curl -Lo $PREFIX/bin/gitea https://dl.gitea.io/gitea/{{ version }}/gitea-{{ version }}-linux-amd64  # [linux64]
-    - curl -Lo $PREFIX/bin/gitea https://dl.gitea.io/gitea/{{ version }}/gitea-{{ version }}-linux-386  # [linux32]
-    - curl -Lo $PREFIX/bin/gitea https://dl.gitea.io/gitea/{{ version }}/gitea-{{ version }}-darwin-10.6-amd64  # [osx]
-    - curl -Lo %LIBRARY_BIN%\gitea.exe https://dl.gitea.io/gitea/{{ version }}/gitea-{{ version }}-windows-4.0-amd64.exe  # [win64]
-    - curl -Lo %LIBRARY_BIN%\gitea.exe https://dl.gitea.io/gitea/{{ version }}/gitea-{{ version }}-windows-4.0-386.exe  # [win32]
-    - chmod +x $PREFIX/bin/gitea  # [unix]
+  skip: True   # [win32]
 
 requirements:
   build:
-    - curl
+    - make
+    - m2-make   # [win]
+    - {{ compiler('go') }}
   run:
     - git
 
